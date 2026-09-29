@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aplikasi Video Saya</title>
+    <!-- Memanggil library pembantu untuk membaca data Google Sheets (PapaParse) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <style>
         /* Pengaturan Dasar & Mode Gelap ala YouTube */
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -63,6 +65,9 @@
             -webkit-box-orient: vertical; 
             overflow: hidden; 
         }
+
+        /* Tulisan loading saat mengambil data */
+        #loading { text-align: center; padding: 20px; color: #aaa; }
     </style>
 </head>
 <body>
@@ -71,33 +76,53 @@
         <h1>Nama Aplikasi Anda</h1>
     </header>
 
-    <div class="video-grid">
-        
-        <!-- ================= START VIDEO 1 ================= -->
-        <div class="video-card">
-            <!-- Atribut 'poster' adalah tempat menaruh link gambar thumbnail -->
-            <!-- Atribut 'controlsList="nodownload"' mencegah tombol download muncul -->
-            <video controls controlsList="nodownload" poster="https://link-gambar-thumbnail-anda-1.jpg">
-                <source src="https://link-video-anda-1.mp4" type="video/mp4">
-            </video>
-            <div class="video-info">
-                <div class="video-title">Belajar Coding HTML dari Nol untuk Pemula dalam 10 Menit</div>
-            </div>
-        </div>
-        <!-- ================= END VIDEO 1 ================= -->
+    <!-- Tulisan ini akan muncul sesaat lalu hilang setelah video berhasil dimuat -->
+    <div id="loading">Memuat video dari database...</div>
 
-        <!-- ================= START VIDEO 2 ================= -->
-        <div class="video-card">
-            <video controls controlsList="nodownload" poster="https://link-gambar-thumbnail-anda-2.jpg">
-                <source src="https://link-video-anda-2.mp4" type="video/mp4">
-            </video>
-            <div class="video-info">
-                <div class="video-title">Cara Membuat Aplikasi Tanpa Playstore</div>
-            </div>
-        </div>
-        <!-- ================= END VIDEO 2 ================= -->
+    <!-- Tempat kosong di mana video dari Google Sheets akan dimunculkan otomatis -->
+    <div class="video-grid" id="video-container"></div>
 
-    </div>
+    <script>
+        // INI ADALAH LINK CSV GOOGLE SHEETS ANDA
+        const googleSheetCSVLink = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7Bza1_hDVQpEiPtq5eJGNuOyJ1eldjXJVQXbJHBRLuku6HAsn22bz2J5shmbrH8QWmvj3L31R94WE/pub?output=csv";
 
+        // Fungsi untuk mengambil data dan menampilkannya
+        Papa.parse(googleSheetCSVLink, {
+            download: true,
+            header: true, // Beritahu program bahwa baris pertama adalah judul kolom (Judul, Thumbnail, Video)
+            complete: function(results) {
+                const data = results.data;
+                const container = document.getElementById('video-container');
+                const loading = document.getElementById('loading');
+                
+                // Hilangkan teks loading
+                loading.style.display = 'none';
+
+                // Lakukan perulangan untuk setiap baris di Google Sheets
+                data.forEach(row => {
+                    // Pastikan baris tersebut memiliki judul dan video (tidak kosong)
+                    if(row.Judul && row.Video) {
+                        
+                        // Buat kotak video baru
+                        const cardHTML = `
+                            <div class="video-card">
+                                <video controls controlsList="nodownload" poster="${row.Thumbnail}">
+                                    <source src="${row.Video}" type="video/mp4">
+                                </video>
+                                <div class="video-info">
+                                    <div class="video-title">${row.Judul}</div>
+                                </div>
+                            </div>
+                        `;
+                        // Masukkan ke dalam layar aplikasi
+                        container.innerHTML += cardHTML;
+                    }
+                });
+            },
+            error: function() {
+                document.getElementById('loading').innerText = "Gagal memuat data. Periksa koneksi internet atau link Google Sheets.";
+            }
+        });
+    </script>
 </body>
 </html>
