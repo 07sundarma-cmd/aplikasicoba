@@ -6,148 +6,30 @@
     <title>StreamFlix - Beranda</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0f0f0f;
-            color: #f1f1f1;
-            min-height: 100vh;
-        }
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(15, 15, 15, 0.9);
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 24px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .logo {
-            font-size: 20px;
-            font-weight: 700;
-            color: #ff0000;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #0f0f0f; color: #f1f1f1; min-height: 100vh; }
+        header { position: sticky; top: 0; z-index: 100; background: rgba(15, 15, 15, 0.9); backdrop-filter: blur(10px); display: flex; justify-content: space-between; align-items: center; padding: 14px 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .logo { font-size: 20px; font-weight: 700; color: #ff0000; display: flex; align-items: center; gap: 8px; cursor: pointer; }
         .logo span { color: #ffffff; }
         #home-page { padding: 24px; }
-        .section-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: #fff;
-        }
-        .video-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
+        .section-title { font-size: 18px; font-weight: 600; margin-bottom: 20px; color: #fff; }
+        .video-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
         @media (min-width: 550px) { .video-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (min-width: 900px) { .video-grid { grid-template-columns: repeat(3, 1fr); } }
-        @media (min-width: 1200px) { .video-grid { grid-template-columns: repeat(4, 1fr); } }
-
-        .video-card {
-            background: transparent;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            transition: transform 0.2s ease;
-        }
+        .video-card { background: transparent; cursor: pointer; display: flex; flex-direction: column; gap: 12px; transition: transform 0.2s ease; }
         .video-card:hover { transform: translateY(-4px); }
-        .thumbnail-container {
-            width: 100%;
-            aspect-ratio: 16/9;
-            border-radius: 12px;
-            overflow: hidden;
-            background-color: #272727;
-        }
-        .thumbnail-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
+        .thumbnail-container { width: 100%; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; background-color: #272727; }
+        .thumbnail-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
         .video-card:hover .thumbnail-container img { transform: scale(1.05); }
-        .video-details { display: flex; gap: 12px; }
-        .video-meta h3 {
-            font-size: 15px;
-            font-weight: 500;
-            line-height: 1.4;
-            color: #f1f1f1;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        .video-meta p {
-            font-size: 13px;
-            color: #aaa;
-            margin-top: 4px;
-        }
-
-        #watch-page {
-            display: none;
-            padding: 24px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .back-btn {
-            background: #272727;
-            color: #fff;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 20px;
-            transition: background 0.2s;
-        }
-        .back-btn:hover { background: #3f3f3f; }
-        .player-container {
-            width: 100%;
-            aspect-ratio: 16/9;
-            background: #000;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-        }
-        .player-container video {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            outline: none;
-        }
-        .watch-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-top: 16px;
-            color: #fff;
-        }
-
-        .loader-container {
-            display: flex; justify-content: center; align-items: center; height: 60vh;
-        }
-        .spinner {
-            width: 45px; height: 45px;
-            border: 4px solid rgba(255,255,255,0.1);
-            border-top: 4px solid #ff0000;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .video-meta h3 { font-size: 15px; font-weight: 500; line-height: 1.4; color: #f1f1f1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .video-meta p { font-size: 13px; color: #aaa; margin-top: 4px; }
+        #watch-page { display: none; padding: 24px; max-width: 1200px; margin: 0 auto; }
+        .back-btn { background: #272727; color: #fff; border: none; padding: 10px 18px; border-radius: 20px; font-size: 14px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+        .player-container { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        .player-container video { width: 100%; height: 100%; object-fit: contain; outline: none; }
+        .watch-title { font-size: 20px; font-weight: 600; margin-top: 16px; color: #fff; }
     </style>
 </head>
 <body>
@@ -158,15 +40,28 @@
         </div>
     </header>
 
-    <div class="loader-container" id="loading">
-        <div class="spinner"></div>
-    </div>
-
-    <div id="home-page" style="display: none;">
+    <!-- HALAMAN BERANDA -->
+    <div id="home-page">
         <div class="section-title">Video Pilihan Untuk Anda</div>
-        <div class="video-grid" id="video-container"></div>
+        <div class="video-grid" id="video-container">
+            
+            <!-- KARTU VIDEO 1 (Otomatis muncul di beranda) -->
+            <div class="video-card" onclick="playVideo('https://www.dropbox.com/scl/fi/t2ixbe3yih1vof5q68x2w/document_5105347669644018577.mp4?rlkey=nod9gewdxtuag2dqnc8jkztwc&st=pygrf5c0&raw=1', 'Bermain dengan ayah part 1')">
+                <div class="thumbnail-container">
+                    <img src="https://i.ibb.co.com/ynrFrqkm/Screenshot-15-Copy.png" alt="Thumbnail">
+                </div>
+                <div class="video-details">
+                    <div class="video-meta">
+                        <h3>Bermain dengan ayah part 1</h3>
+                        <p>Video • Baru</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
+    <!-- HALAMAN PEMUTAR VIDEO -->
     <div id="watch-page">
         <button class="back-btn" onclick="goHome()"><i class="fa-solid fa-arrow-left"></i> Kembali</button>
         <div class="player-container">
@@ -176,54 +71,13 @@
     </div>
 
     <script>
-        const googleSheetCSVLink = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7Bza1_hDVQpEiPtq5eJGNuOyJ1eldjXJVQXbJHBRLuku6HAsn22bz2J5shmbrH8QWmvj3L31R94WE/pub?output=csv";
-
-        let allVideosData = [];
-
-        Papa.parse(googleSheetCSVLink, {
-            download: true,
-            header: true,
-            complete: function(results) {
-                allVideosData = results.data;
-                const container = document.getElementById('video-container');
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('home-page').style.display = 'block';
-
-                let htmlContent = '';
-                allVideosData.forEach((row, index) => {
-                    if(row.Judul && row.Video) {
-                        htmlContent += `
-                            <div class="video-card" onclick="playVideo(${index})">
-                                <div class="thumbnail-container">
-                                    <img src="${row.Thumbnail}" alt="${row.Judul}" onerror="this.src='https://picsum.photos/640/360'">
-                                </div>
-                                <div class="video-details">
-                                    <div class="video-meta">
-                                        <h3>${row.Judul}</h3>
-                                        <p>Video • Baru</p>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    }
-                });
-                container.innerHTML = htmlContent;
-            },
-            error: function() {
-                document.getElementById('loading').innerHTML = "<p style='color:#ff4d4d;'>Gagal memuat database video dari Google Sheets.</p>";
-            }
-        });
-
-        function playVideo(index) {
-            const videoData = allVideosData[index];
-            if(!videoData) return;
-
+        function playVideo(videoUrl, videoTitle) {
             document.getElementById('home-page').style.display = 'none';
             document.getElementById('watch-page').style.display = 'block';
 
-            document.getElementById('watch-title-text').innerText = videoData.Judul;
+            document.getElementById('watch-title-text').innerText = videoTitle;
             const videoPlayer = document.getElementById('main-video');
-            videoPlayer.src = videoData.Video;
+            videoPlayer.src = videoUrl;
             videoPlayer.play();
 
             window.scrollTo(0, 0);
