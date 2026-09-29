@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StreamFlix - Beranda</title>
-    <!-- Google Fonts: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome untuk Ikon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- PapaParse untuk membaca Google Sheets CSV secara otomatis -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
     <style>
@@ -19,8 +16,6 @@
             color: #f1f1f1;
             min-height: 100vh;
         }
-
-        /* HEADER / NAVBAR */
         header {
             position: sticky;
             top: 0;
@@ -43,8 +38,6 @@
             cursor: pointer;
         }
         .logo span { color: #ffffff; }
-
-        /* HALAMAN UTAMA (HOME) */
         #home-page { padding: 24px; }
         .section-title {
             font-size: 18px;
@@ -61,7 +54,6 @@
         @media (min-width: 900px) { .video-grid { grid-template-columns: repeat(3, 1fr); } }
         @media (min-width: 1200px) { .video-grid { grid-template-columns: repeat(4, 1fr); } }
 
-        /* KARTU VIDEO */
         .video-card {
             background: transparent;
             cursor: pointer;
@@ -102,7 +94,6 @@
             margin-top: 4px;
         }
 
-        /* HALAMAN PEMUTAR VIDEO (WATCH PAGE) */
         #watch-page {
             display: none;
             padding: 24px;
@@ -146,7 +137,6 @@
             color: #fff;
         }
 
-        /* LOADING SPINNER */
         .loader-container {
             display: flex; justify-content: center; align-items: center; height: 60vh;
         }
@@ -162,25 +152,21 @@
 </head>
 <body>
 
-    <!-- NAVBAR ATAS -->
     <header>
         <div class="logo" onclick="goHome()">
             <i class="fa-solid fa-play"></i> Stream<span>Flix</span>
         </div>
     </header>
 
-    <!-- LOADING STATE -->
     <div class="loader-container" id="loading">
         <div class="spinner"></div>
     </div>
 
-    <!-- HALAMAN 1: BERANDA (GRID VIDEO) -->
     <div id="home-page" style="display: none;">
         <div class="section-title">Video Pilihan Untuk Anda</div>
         <div class="video-grid" id="video-container"></div>
     </div>
 
-    <!-- HALAMAN 2: PEMUTAR VIDEO (DETAIL) -->
     <div id="watch-page">
         <button class="back-btn" onclick="goHome()"><i class="fa-solid fa-arrow-left"></i> Kembali</button>
         <div class="player-container">
@@ -190,12 +176,10 @@
     </div>
 
     <script>
-        // LINK CSV GOOGLE SHEETS ANDA
         const googleSheetCSVLink = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7Bza1_hDVQpEiPtq5eJGNuOyJ1eldjXJVQXbJHBRLuku6HAsn22bz2J5shmbrH8QWmvj3L31R94WE/pub?output=csv";
 
         let allVideosData = [];
 
-        // Ambil data otomatis dari Google Sheets
         Papa.parse(googleSheetCSVLink, {
             download: true,
             header: true,
@@ -207,7 +191,6 @@
 
                 let htmlContent = '';
                 allVideosData.forEach((row, index) => {
-                    // Pastikan baris Google Sheets memiliki Judul dan Video
                     if(row.Judul && row.Video) {
                         htmlContent += `
                             <div class="video-card" onclick="playVideo(${index})">
@@ -231,7 +214,6 @@
             }
         });
 
-        // Fungsi saat thumbnail/judul diklik -> Pindah ke Halaman Nonton
         function playVideo(index) {
             const videoData = allVideosData[index];
             if(!videoData) return;
@@ -247,7 +229,6 @@
             window.scrollTo(0, 0);
         }
 
-        // Fungsi kembali ke Beranda
         function goHome() {
             const videoPlayer = document.getElementById('main-video');
             videoPlayer.pause();
