@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Video Saya</title>
+    <style>
+        /* Pengaturan Dasar & Mode Gelap ala YouTube */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            background-color: #0f0f0f; 
+            color: #f1f1f1; 
+            padding-bottom: 20px; 
+        }
+        
+        /* Header / Navigasi Atas */
+        header { 
+            padding: 15px 20px; 
+            border-bottom: 1px solid #272727; 
+            margin-bottom: 20px; 
+            background-color: #0f0f0f;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        h1 { font-size: 20px; }
+
+        /* Grid Layout untuk Video */
+        .video-grid { 
+            display: grid; 
+            grid-template-columns: 1fr; /* 1 Kolom untuk HP */
+            gap: 25px 15px; 
+            padding: 0 15px; 
+        }
+        
+        /* Jika layar lebar (Tablet/Laptop), ubah jadi 2 atau 3 kolom */
+        @media (min-width: 600px) { .video-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 900px) { .video-grid { grid-template-columns: repeat(3, 1fr); } }
+
+        /* Desain Kartu Video */
+        .video-card { display: flex; flex-direction: column; gap: 10px; }
+        
+        /* Pemutar Video & Thumbnail */
+        video { 
+            width: 100%; 
+            aspect-ratio: 16/9; /* Proporsi standar YouTube */
+            border-radius: 12px; /* Sudut melengkung */
+            object-fit: cover; 
+            background-color: #000; 
+            outline: none; 
+        }
+        
+        /* Judul Video */
+        .video-info { padding: 0 5px; }
+        .video-title { 
+            font-size: 16px; 
+            font-weight: 500; 
+            line-height: 1.4; 
+            /* Memotong teks panjang menjadi maksimal 2 baris */
+            display: -webkit-box; 
+            -webkit-line-clamp: 2; 
+            -webkit-box-orient: vertical; 
+            overflow: hidden; 
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Nama Aplikasi Anda</h1>
+    </header>
+
+    <div class="video-grid">
+        
+        <!-- ================= START VIDEO 1 ================= -->
+        <div class="video-card">
+            <!-- Atribut 'poster' adalah tempat menaruh link gambar thumbnail -->
+            <!-- Atribut 'controlsList="nodownload"' mencegah tombol download muncul -->
+            <video controls controlsList="nodownload" poster="https://link-gambar-thumbnail-anda-1.jpg">
+                <source src="https://link-video-anda-1.mp4" type="video/mp4">
+            </video>
+            <div class="video-info">
+                <div class="video-title">Belajar Coding HTML dari Nol untuk Pemula dalam 10 Menit</div>
+            </div>
+        </div>
+        <!-- ================= END VIDEO 1 ================= -->
+
+        <!-- ================= START VIDEO 2 ================= -->
+        <div class="video-card">
+            <video controls controlsList="nodownload" poster="https://link-gambar-thumbnail-anda-2.jpg">
+                <source src="https://link-video-anda-2.mp4" type="video/mp4">
+            </video>
+            <div class="video-info">
+                <div class="video-title">Cara Membuat Aplikasi Tanpa Playstore</div>
+            </div>
+        </div>
+        <!-- ================= END VIDEO 2 ================= -->
+
+    </div>
+
+</body>
+</html>
